@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Display from './Display';
+import HitCard from './HitCard';
 
 
 class Dashboard extends Component {
@@ -9,17 +10,22 @@ class Dashboard extends Component {
         ball: 0, 
         foul: 0, 
         hit: 0, 
+        player: 0,
+        players: []
     }
 
     updateHit = () => {
 
-        console.log("desired number of hits", this.state.hit + 1)
+        this.setState({
+            players: [...this.state.players, this.state]
+        })
 
         this.setState({
             strike: 0, 
             ball: 0, 
-            hit: this.state.hit + 1, 
             foul: 0,
+            hit: 0,
+            player: this.state.player + 1
         })
 
     }
@@ -86,12 +92,16 @@ class Dashboard extends Component {
         return (
             <div className="container">
                 <Display props={this.state}/>
+
                 <div className="dashboard-container">
-                    <button onClick={this.updateStrike}>strike</button>
+                    <button data-testid="strikeButton" onClick={this.updateStrike}>strike</button>
                     <button onClick={this.updateBall}>ball</button>
                     <button onClick={this.updateFoul}>foul</button>
                     <button onClick={this.updateHit}>hit</button>
                 </div>
+
+                {this.state.players.map((person) => (<HitCard props={person} key={person.id}/>))}
+
             </div>
         )
     }  
